@@ -60,9 +60,10 @@
 
 <script setup>
   import { ref,computed } from 'vue';
+import { useRouter } from 'vue-router';
   import { useStore } from 'vuex';
-  import router from '@/router'
   
+  const router = useRouter()
   const store = useStore()
   const drawer = ref(true)
   const user = computed(() => {
@@ -72,7 +73,7 @@
   const logout = async() => {
     try {
       await store.dispatch('logout')
-      router.push('/home')
+      router.push('/')
     } catch(error) {
       console.error(error)
     }

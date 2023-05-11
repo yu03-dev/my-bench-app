@@ -54,13 +54,14 @@
 </template>
 
 <script setup>
-  import router from '@/router'
   import { reactive, ref, computed } from 'vue'
   import { useVuelidate } from '@vuelidate/core'
   import { required, sameAs } from '@vuelidate/validators'
   import api from '@/api'
+  import { useRouter } from 'vue-router';
 
 
+  const router = useRouter()
   const initialInputs = {
     username: '',
     password: '',

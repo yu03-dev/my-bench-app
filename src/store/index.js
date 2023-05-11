@@ -1,8 +1,7 @@
 import { createStore } from "vuex"
+// vuex-persistedstateはまもなくサポートが終了
 import createPersistedState from 'vuex-persistedstate'
 import api from '@/api'
-
-
 
 const store = createStore({
   plugins: [createPersistedState()],
@@ -40,11 +39,13 @@ const store = createStore({
       try {
         const response = await api.get('/mypage')
         if (response.data.success) {
-          console.log(`[getRecordsToSet]:${response.data.message}`)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(`[getRecordsToSet]:${response.data.message}`)
+          }
           commit('setDataLoaded')
           commit('setRecords', response.data.records)
         } else {
-          console.log(`[getRecordsToSet]:${response.data.message}`)
+          console.error(`[getRecordsToSet]:${response.data.message}`)
         }
       } catch(error) {
         console.error(`[getRecordsToSet]:${error}`)
@@ -55,10 +56,12 @@ const store = createStore({
       try {
         const response = await api.post('/mypage', inputs)
         if (response.data.success) {
-          console.log(`[createRecords]:${response.data.message}`)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(`[createRecords]:${response.data.message}`)
+          }
           commit('setRecords', response.data.records)
         } else {
-          console.log(`[createRecords]:${response.data.message}`)
+          console.error(`[createRecords]:${response.data.message}`)
         }
       } catch(error) {
         console.error(`[createRecords]:${error}`)
@@ -74,10 +77,12 @@ const store = createStore({
       try {
         const response = await api.put(`/mypage/${id}`, inputs)
         if (response.data.success) {
-          console.log(`[editRecords]:${response.data.message}`)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(`[editRecords]:${response.data.message}`)
+          }
           commit('setRecords', response.data.records)
         } else {
-          console.log(`[editRecords]:${response.data.message}`)
+          console.error(`[editRecords]:${response.data.message}`)
         }
       } catch(error) {
         console.error(`[editRecords]:${error}`)
@@ -90,10 +95,12 @@ const store = createStore({
       try {
         const response = await api.delete(`/mypage/${id}`)
         if (response.data.success) {
-          console.log(`[deleteRecords]:${response.data.message}`)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(`[deleteRecords]:${response.data.message}`)
+          }
           commit('setRecords', response.data.records)
         } else {
-          console.log(`[deleteRecords]:${response.data.message}`)
+          console.error(`[deleteRecords]:${response.data.message}`)
         }
       } catch(error) {
         console.error(`[deleteRecords]:${error}`)
@@ -104,11 +111,13 @@ const store = createStore({
       try {
         const response = await api.post('auth/signin', inputs)
         if (response.data.success) {
-          console.log(response.data.message)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(response.data.message)
+          }
           commit('setUser', response.data.user)
           commit('setAuth')
         } else {
-          console.log(response.data.message)
+          console.error(response.data.message)
         }
       } catch(error) {
         console.error(error)
@@ -119,10 +128,12 @@ const store = createStore({
       try {
         const response = await api.post('auth/signout')
         if (response.data.success) {
-          console.log(response.data.message)
+          if (import.meta.env.VITE_ENV === 'development') {
+            console.log(response.data.message)
+          }
           commit('resetAuth')
         } else {
-          console.log(response.data.message)
+          console.error(response.data.message)
         }
       } catch(error) {
         console.error(error)

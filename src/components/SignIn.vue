@@ -42,13 +42,14 @@
 
 <script setup>
   import { useStore } from 'vuex'
-  import router from '@/router'
+  import { useRouter } from 'vue-router'
   import { reactive } from 'vue'
   import { useVuelidate } from '@vuelidate/core'
   import { required } from '@vuelidate/validators'
   import { ref } from 'vue'
 
   const store = useStore()
+  const router = useRouter()
 
   const initialInputs = {
     username: '',

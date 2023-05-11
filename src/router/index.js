@@ -1,25 +1,17 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import MyPage from '../views/MyPage.vue'
-import store from '../store'
+import { useStore } from 'vuex'
 
 const routes = [
   {
-    path: '/mypage',
-    component: MyPage,
-    beforeEnter: (to, from, next) => {
-      if(store.getters.getIsAuth) {
-        next()
-      } else {
-        next('/signin')
-      }
-    }
-    
-  },
-  {
-    path: '/home',
+    path: '/',
     name: 'Home',
     component: () => import('../views/HomeApp.vue')
+  },
+  {
+    path: '/mypage',
+    component: () => import('../views/MyPage.vue'),
+    requiresAuth: true
   },
   {
     path: '/signin',
@@ -35,8 +27,17 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
-  store
+  routes
+})
+
+const store = useStore()
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters.getIsAuth) {
+    next('/signin')
+  } else {
+    next()
+  }
 })
 
 export default router
