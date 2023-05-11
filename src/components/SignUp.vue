@@ -88,10 +88,12 @@
     try {
       const response = await api.post('auth/signup', inputs)
       if (response.data.success) {
-        console.log(response.data.message)
+        if (import.meta.env.VITE_ENV === 'development') {
+          console.log(response.data.message)
+        }
         router.push('/signin')
       } else {
-        console.log(response.data.message)
+        console.error(response.data.message)
         alert('サインアップできませんでした')
       }
     } catch(error) {

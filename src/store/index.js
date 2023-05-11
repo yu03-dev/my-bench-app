@@ -91,7 +91,6 @@ const store = createStore({
 
     async deleteRecords({ commit }, record){
       const id = record.id
-      console.log(id)
       try {
         const response = await api.delete(`/mypage/${id}`)
         if (response.data.success) {
