@@ -10,7 +10,9 @@ const store = createStore({
     user: null,
     records: null,
     isAuth: false,
-    isDataLoaded: false
+    isDataLoaded: false,
+    isSnack: false,
+    snackMessage: ''
   },
 
   mutations: {
@@ -31,7 +33,13 @@ const store = createStore({
     },
     setDataLoaded(state) {
       state.isDataLoaded = true
-    }
+    },
+    setSnack(state, bool) {
+      state.isSnack = bool
+    },
+    setSnackMessage(state, message) {
+      state.snackMessage = message
+    },
   },
 
   actions: {
@@ -155,6 +163,14 @@ const store = createStore({
 
     getIsDataLoaded: (state) => {
       return state.isDataLoaded
+    },
+
+    getIsSnack: (state) => {
+      return state.isSnack
+    },
+
+    getSnackMessage: (state) => {
+      return state.snackMessage
     }
   }
 })

@@ -38,6 +38,7 @@
       </v-form>
     </v-card-text>
   </v-card>
+  <snack-bar/>
 </template>
 
 <script setup>
@@ -47,6 +48,7 @@
   import { useVuelidate } from '@vuelidate/core'
   import { required } from '@vuelidate/validators'
   import { ref } from 'vue'
+  import SnackBar from '@/components/SnackBar.vue'
 
   const store = useStore()
   const router = useRouter()
@@ -74,6 +76,8 @@
     try {
       await store.dispatch('login', inputs)
       if (store.getters.getIsAuth) {
+        store.commit('setSnackMessage', 'ログインしました')
+        store.commit('setSnack', true)
         router.push('/mypage')
       } else {
         alert('ログインできませんでした')

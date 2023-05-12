@@ -73,6 +73,8 @@ import { useRouter } from 'vue-router';
   const logout = async() => {
     try {
       await store.dispatch('logout')
+      store.commit('setSnackMessage', 'ログアウトしました')
+      store.commit('setSnack', true)
       router.push('/')
     } catch(error) {
       console.error(error)

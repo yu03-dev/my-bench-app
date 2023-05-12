@@ -59,9 +59,11 @@
   import { required, sameAs } from '@vuelidate/validators'
   import api from '@/api'
   import { useRouter } from 'vue-router';
+  import { useStore } from 'vuex';
 
 
   const router = useRouter()
+  const store = useStore()
   const initialInputs = {
     username: '',
     password: '',
@@ -91,6 +93,8 @@
         if (import.meta.env.VITE_ENV === 'development') {
           console.log(response.data.message)
         }
+        store.commit('setSnackMessage', 'サインアップできました')
+        store.commit('setSnack', true)
         router.push('/signin')
       } else {
         console.error(response.data.message)

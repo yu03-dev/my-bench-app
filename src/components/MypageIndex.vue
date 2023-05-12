@@ -69,6 +69,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <snack-bar/>
   </v-container>
 </template>
 
@@ -77,6 +78,7 @@ import { useStore } from 'vuex';
 import { computed,onMounted, ref } from 'vue'
 
 const store = useStore()
+
 onMounted(async() => {
   try {
     await store.dispatch('getRecordsToSet')
@@ -112,6 +114,8 @@ const editData = async(data) => {
   try {
     await store.dispatch('editRecords', data)
     editId.value = null
+    store.commit('setSnackMessage', 'レコードを編集しました')
+    store.commit('setSnack', true)
   } catch(error) {
     console.error(error)
   }
@@ -120,6 +124,8 @@ const deleteData = async(data) => {
   if(confirm('本当に削除しますか？')) {
     try {
       await store.dispatch('deleteRecords', data)
+      store.commit('setSnackMessage', 'レコードを削除しました')
+      store.commit('setSnack', true)
     } catch(error) {
       console.error(error)
     }

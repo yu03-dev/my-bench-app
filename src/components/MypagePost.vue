@@ -35,13 +35,10 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-snackbar v-if="snackbar">
-            Your process has been completed successfully!
-            <v-btn color="grayw" text @click="snackbar = false">Close</v-btn>
-          </v-snackbar>
         </v-form>
       </v-card-text>
     </v-card>
+    <snack-bar/>
   </v-container>
 </template>
 
@@ -50,10 +47,9 @@ import { useStore } from 'vuex'
 import { reactive } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import SnackBar from '@/components/SnackBar.vue'
 
 const store = useStore()
-
-let snackbar = false
 
 const initialInputs = {
   weight: '',
@@ -75,10 +71,10 @@ const onSubmit = async () => {
   }
   try {
     await store.dispatch('createRecords', inputs)
-    // popが出ない...
-    snackbar = true
+    // snackbar
+    store.commit('setSnackMessage', 'レコードを作成しました')
+    store.commit('setSnack', true)
     Object.assign(inputs, initialInputs)
-    // inputsを初期化したい
   } catch(err) {
     console.error(err)
   }

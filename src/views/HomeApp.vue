@@ -16,11 +16,13 @@
         <a href="https://jp.freepik.com/free-photo/man-workingout-in-the-local-gym_20989285.htm#query=%E3%83%99%E3%83%B3%E3%83%81%20%E3%83%97%E3%83%AC%E3%82%B9&position=2&from_view=keyword&track=ais">著作者：fabrikasimf</a>／出典：Freepik
       </div>
     </div>
+    <snack-bar/>
   </v-app>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
+import SnackBar from '@/components/SnackBar.vue'
 
 const router = useRouter()
 
