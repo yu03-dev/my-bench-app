@@ -87,7 +87,7 @@
       return
     }
     try {
-      const response = await api.post('auth/signup', inputs)
+      const response = await api.post('/auth/signup', inputs)
       if (response.data.success) {
         if (import.meta.env.VITE_ENV === 'development') {
           console.log(response.data.message)
