@@ -38,7 +38,7 @@ const signup = () => {
 
 <style scoped>
 .home {
-  background: url('home_bench_app.jpg') no-repeat center center fixed;
+  background: url('../../public/home_bench_app.jpg') no-repeat center center fixed;
   background-size: cover;
   width: 100%;
   height: 100%;
