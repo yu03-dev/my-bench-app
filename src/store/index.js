@@ -10,7 +10,6 @@ const store = createStore({
     user: null,
     records: null,
     isAuth: false,
-    isDataLoaded: false,
     isSnack: false,
     snackMessage: ''
   },
@@ -31,9 +30,6 @@ const store = createStore({
       state.isAuth = false
       state.isDataLoaded = false
     },
-    setDataLoaded(state) {
-      state.isDataLoaded = true
-    },
     setSnack(state, bool) {
       state.isSnack = bool
     },
@@ -50,7 +46,6 @@ const store = createStore({
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(`[getRecordsToSet]:${response.data.message}`)
           }
-          commit('setDataLoaded')
           commit('setRecords', response.data.records)
         } else {
           console.error(`[getRecordsToSet]:${response.data.message}`)
@@ -145,7 +140,15 @@ const store = createStore({
       } catch(error) {
         console.error(error)
       }
-    }
+    },
+
+    async snackbar({ commit }, message){
+      commit('setSnackMessage', message)
+      commit('setSnack', true)
+      setTimeout(() => {
+        commit('setSnack', false);
+      }, 3000);
+    },
   },
 
   getters: {
@@ -159,10 +162,6 @@ const store = createStore({
 
     getIsAuth: (state) => {
       return state.isAuth
-    },
-
-    getIsDataLoaded: (state) => {
-      return state.isDataLoaded
     },
 
     getIsSnack: (state) => {

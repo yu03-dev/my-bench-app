@@ -8,6 +8,7 @@
             <v-col cols="12" md="5">
               <v-text-field
                 v-model="inputs.weight"
+                :error-messages="v$.weight.$errors.map(e => e.$message)"
                 label="重量（kg）"
                 outlined
                 required
@@ -20,6 +21,7 @@
             <v-col cols="12" md="4">
               <v-text-field
                 v-model="inputs.reps"
+                :error-messages="v$.reps.$errors.map(e => e.$message)"
                 label="回数"
                 outlined
                 required
@@ -46,7 +48,7 @@
 import { useStore } from 'vuex'
 import { reactive } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, integer } from '@vuelidate/validators'
 import SnackBar from '@/components/SnackBar.vue'
 
 const store = useStore()
@@ -59,22 +61,21 @@ const inputs = reactive({
   ...initialInputs
 })
 const rules = {
-  weight: { required },
-  reps: { required },
+  weight: { required, integer },
+  reps: { required, integer },
 }
 const v$ = useVuelidate(rules, inputs)
 
 const onSubmit = async () => {
-  if (v$.$invalid) {
-    alert('Validation failed!')
+  if (v$.value.$invalid) {
+    v$.value.$touch()
     return
   }
   try {
     await store.dispatch('createRecords', inputs)
-    // snackbar
-    store.commit('setSnackMessage', 'レコードを作成しました')
-    store.commit('setSnack', true)
     Object.assign(inputs, initialInputs)
+    // snackbar
+    await store.dispatch('snackbar', 'レコードを作成しました')
   } catch(err) {
     console.error(err)
   }

@@ -56,7 +56,7 @@
 <script setup>
   import { reactive, ref, computed } from 'vue'
   import { useVuelidate } from '@vuelidate/core'
-  import { required, sameAs } from '@vuelidate/validators'
+  import { required, sameAs, minLength } from '@vuelidate/validators'
   import api from '@/api'
   import { useRouter } from 'vue-router';
   import { useStore } from 'vuex';
@@ -74,7 +74,7 @@
   })
   const rules = computed(() => ({
     username: { required },
-    password: { required },
+    password: { required, minLength: minLength(6) },
     repassword: { required, sameAs: sameAs(inputs.password) }
   }))
   const v$ = useVuelidate(rules, inputs)
@@ -83,8 +83,7 @@
   const reShow = ref(false)
 
   const onSubmit = async() => {
-    if (v$.$invalid) {
-      alert('Validation failed!')
+    if (v$.value.$invalid) {
       return
     }
     try {
@@ -93,12 +92,10 @@
         if (import.meta.env.VITE_ENV === 'development') {
           console.log(response.data.message)
         }
-        store.commit('setSnackMessage', 'サインアップできました')
-        store.commit('setSnack', true)
         router.push('/signin')
+        await store.dispatch('Snackbar', 'サインアップできました')
       } else {
-        console.error(response.data.message)
-        alert('サインアップできませんでした')
+        await store.dispatch('Snackbar', 'サインアップできませんでした')
       }
     } catch(error) {
       console.error(error)

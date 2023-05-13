@@ -47,11 +47,15 @@
   import { reactive } from 'vue'
   import { useVuelidate } from '@vuelidate/core'
   import { required } from '@vuelidate/validators'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import SnackBar from '@/components/SnackBar.vue'
 
   const store = useStore()
   const router = useRouter()
+  const show = ref(false)
+  const isAuth = computed(() => {
+    return store.getters.getIsAuth
+  })
 
   const initialInputs = {
     username: '',
@@ -66,21 +70,17 @@
   }
   const v$ = useVuelidate(rules, inputs)
 
-  const show = ref(false)
-
   const onSubmit = async() => {
-    if (v$.$invalid) {
-      alert('Validation failed!')
+    if (v$.value.$invalid) {
       return
     }
     try {
       await store.dispatch('login', inputs)
-      if (store.getters.getIsAuth) {
-        store.commit('setSnackMessage', 'ログインしました')
-        store.commit('setSnack', true)
+      if (isAuth.value) {
         router.push('/mypage')
+        await store.dispatch('snackbar', 'ログインしました')
       } else {
-        alert('ログインできませんでした')
+        await store.dispatch('snackbar', 'ログインできませんでした')
       }
     } catch(error) {
       console.error(error)

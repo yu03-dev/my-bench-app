@@ -1,18 +1,7 @@
 <template>
-  <v-snackbar
-      v-model="snackbar"
-    >
-      {{ snackMessage }}
-      <template v-slot:actions>
-        <v-btn
-          color="red"
-          variant="text"
-          @click="store.commit('setSnack', false)"
-        >
-          CLOSE
-        </v-btn>
-      </template>
-    </v-snackbar>
+  <v-snackbar v-model="snackbar">
+    {{ snackMessage }}
+  </v-snackbar>
 </template>
 
 <script setup>

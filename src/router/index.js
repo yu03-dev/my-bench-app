@@ -1,6 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import { useStore } from 'vuex'
+import { computed } from 'vue'
+import store from '@/store'
 
 const routes = [
   {
@@ -10,8 +11,8 @@ const routes = [
   },
   {
     path: '/mypage',
+    name: 'MyPage',
     component: () => import('../views/MyPage.vue'),
-    requiresAuth: true
   },
   {
     path: '/signin',
@@ -30,10 +31,12 @@ const router = createRouter({
   routes
 })
 
-const store = useStore()
+const isAuth = computed(() => {
+  return store.getters.getIsAuth
+})
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !store.getters.getIsAuth) {
+  if (to.name == 'MyPage' && !isAuth.value) {
     next('/signin')
   } else {
     next()

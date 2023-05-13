@@ -47,18 +47,18 @@
                     </v-col>
                     <v-col cols="1">
                       <template v-if="editId != data.id">
-                        <v-icon color="gray" @click="openEdit(data)">mdi-pencil</v-icon>
+                        <v-icon color="gray" @click="onOpenEditMenu(data)">mdi-pencil</v-icon>
                       </template>
                       <template v-else>
-                        <v-icon @click="cancelEdit(data)">mdi-close</v-icon>
+                        <v-icon @click="onCloseEditMenu(data)">mdi-close</v-icon>
                       </template>
                     </v-col>
                     <v-col cols="2">
                       <template v-if="editId != data.id">
-                        <v-icon color="gray" @click="deleteData(data)">mdi-delete</v-icon>
+                        <v-icon color="gray" @click="onDelete(data)">mdi-delete</v-icon>
                       </template>
                       <template v-else>
-                        <v-icon @click="editData(data)">mdi-check</v-icon>
+                        <v-icon @click="onEdit(data)">mdi-check</v-icon>
                       </template>
                     </v-col>
                   </v-row>
@@ -75,9 +75,12 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { computed,onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const store = useStore()
+const records = computed(() => {
+  return store.getters.getRecords || []
+})
 
 onMounted(async() => {
   try {
@@ -87,45 +90,39 @@ onMounted(async() => {
   }
 })
 
-const records = computed(() => {
-  return store.getters.getRecords || []
-})
-
 const reversed = (array) => {
   return array.slice().reverse();
 }
 
-const initdata = {
-  weight: 0,
-  reps: 0
+const temp = {
+  weight: null,
+  reps: null
 }
 const editId = ref(null)
-const openEdit = (data) => {
+const onOpenEditMenu = (data) => {
   editId.value = data.id
-  initdata.weight = data.weight
-  initdata.reps = data.reps
+  temp.weight = data.weight
+  temp.reps = data.reps
 }
-const cancelEdit = (data) => {
+const onCloseEditMenu = (data) => {
   editId.value = null
-  data.weight = initdata.weight
-  data.reps = initdata.reps
+  data.weight = temp.weight
+  data.reps = temp.reps
 }
-const editData = async(data) => {
+const onEdit = async(data) => {
   try {
     await store.dispatch('editRecords', data)
     editId.value = null
-    store.commit('setSnackMessage', 'レコードを編集しました')
-    store.commit('setSnack', true)
+    await store.dispatch('snackbar', 'レコードを編集しました')
   } catch(error) {
     console.error(error)
   }
 }
-const deleteData = async(data) => {
+const onDelete = async(data) => {
   if(confirm('本当に削除しますか？')) {
     try {
       await store.dispatch('deleteRecords', data)
-      store.commit('setSnackMessage', 'レコードを削除しました')
-      store.commit('setSnack', true)
+      await store.dispatch('snackbar', 'レコードを削除しました')
     } catch(error) {
       console.error(error)
     }

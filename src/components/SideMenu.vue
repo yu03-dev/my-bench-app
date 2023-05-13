@@ -60,7 +60,7 @@
 
 <script setup>
   import { ref,computed } from 'vue';
-import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router';
   import { useStore } from 'vuex';
   
   const router = useRouter()
@@ -70,20 +70,20 @@ import { useRouter } from 'vue-router';
     return store.getters.getUser || []
   })
 
-  const logout = async() => {
-    try {
-      await store.dispatch('logout')
-      store.commit('setSnackMessage', 'ログアウトしました')
-      store.commit('setSnack', true)
-      router.push('/')
-    } catch(error) {
-      console.error(error)
-    }
-  }
   const links = ref([
     ['mdi-account', 'MyPage', '/mypage'],
   ])
   const logoutLinks = ref([
     ['mdi-logout', 'Logout'],
   ])
+
+  const logout = async() => {
+    try {
+      await store.dispatch('logout')
+      router.push('/')
+      await store.dispatch('snackbar', 'ログアウトしました')
+    } catch(error) {
+      console.error(error)
+    }
+  }
 </script>
