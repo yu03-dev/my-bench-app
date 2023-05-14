@@ -32,7 +32,6 @@ const store = createStore({
     async getRecordsToSet({ commit }){
       try {
         const response = await api.get('/mypage')
-        console.log(response.data)
         const {success, message, user, records, isAuth} = response.data
         commit('setResponses', {user, records, isAuth})
         if (success) {
