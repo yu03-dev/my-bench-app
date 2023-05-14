@@ -107,13 +107,6 @@ const store = createStore({
       try {
         const response = await api.post('auth/signin', inputs)
         const {success, message, user, records, isAuth} = response.data
-        // for debug
-        console.log(success)
-        console.log(message)
-        console.log(user)
-        console.log(records)
-        console.log(isAuth)
-        console.log(`data: ${response.data.isAuth}`)
         commit('setResponses', user, records, isAuth)
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {

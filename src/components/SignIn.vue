@@ -47,12 +47,15 @@
   import { reactive } from 'vue'
   import { useVuelidate } from '@vuelidate/core'
   import { required } from '@vuelidate/validators'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   import SnackBar from '@/components/SnackBar.vue'
 
   const store = useStore()
   const router = useRouter()
   const show = ref(false)
+  const isAuth = computed(() => {
+    return store.getters.getIsAuth
+  })
 
   const initialInputs = {
     username: '',
@@ -73,7 +76,7 @@
     }
     try {
       await store.dispatch('login', inputs)
-      if (store.getters.getIsAuth) {
+      if (isAuth.value) {
         router.push('/mypage')
         await store.dispatch('snackbar', 'ログインしました')
       } else {
