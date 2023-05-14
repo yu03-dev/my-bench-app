@@ -112,6 +112,7 @@ const store = createStore({
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(message)
           }
+          console.log('Success') // for debug
         } else {
           console.error(message)
         }
