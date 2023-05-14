@@ -73,11 +73,6 @@
     }
     try {
       await store.dispatch('login', inputs)
-      // for debug
-      console.log(store.getters.getIsAuth)
-      console.log(store.getters.getRecords)
-      console.log(store.getters.getUser)
-
       if (store.getters.getIsAuth) {
         router.push('/mypage')
         await store.dispatch('snackbar', 'ログインしました')
