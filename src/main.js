@@ -12,8 +12,6 @@ import { createApp } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
-import store from './store'
-import router from './router'
 
 const app = createApp(App)
 
@@ -24,7 +22,10 @@ if (import.meta.env.VITE_ENV === 'development') {
 app.config.globalProperties.$localStorage = window.localStorage
 
 registerPlugins(app)
+
+import store from './store'
 app.use(store)
+import router from './router'
 app.use(router)
 
 app.mount('#app')

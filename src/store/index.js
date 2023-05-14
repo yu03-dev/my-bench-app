@@ -15,7 +15,7 @@ const store = createStore({
   },
 
   mutations: {
-    setResponses(state, user, records, isAuth) {
+    setResponses(state, { user, records, isAuth }) {
       state.user = user,
       state.records = records,
       state.isAuth = isAuth
@@ -33,7 +33,7 @@ const store = createStore({
       try {
         const response = await api.get('/mypage')
         const {success, message, user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(`[getRecordsToSet]:${message}`)
@@ -50,7 +50,7 @@ const store = createStore({
       try {
         const response = await api.post('/mypage', inputs)
         const {success, message, user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(`[createRecords]:${message}`)
@@ -72,7 +72,7 @@ const store = createStore({
       try {
         const response = await api.put(`/mypage/${id}`, inputs)
         const {success, message,  user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(`[editRecords]:${message}`)
@@ -90,7 +90,7 @@ const store = createStore({
       try {
         const response = await api.delete(`/mypage/${id}`)
         const {success, message, user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(`[deleteRecords]:${message}`)
@@ -106,8 +106,9 @@ const store = createStore({
     async login({ commit }, inputs){
       try {
         const response = await api.post('auth/signin', inputs)
+        console.log(response.data)
         const {success, message, user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(message)
@@ -124,7 +125,7 @@ const store = createStore({
       try {
         const response = await api.post('auth/signout')
         const {success, message, user, records, isAuth} = response.data
-        commit('setResponses', user, records, isAuth)
+        commit('setResponses', {user, records, isAuth})
         if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
             console.log(message)
