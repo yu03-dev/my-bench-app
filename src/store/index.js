@@ -15,20 +15,10 @@ const store = createStore({
   },
 
   mutations: {
-    setUser(state, user) {
-      state.user = user
-    },
-    setRecords(state, records) {
-      state.records = records
-    },
-    setAuth(state) {
-      state.isAuth = true
-    },
-    resetAuth(state) {
-      state.user = null
-      state.records = null
-      state.isAuth = false
-      state.isDataLoaded = false
+    setResponses(state, user, records, isAuth) {
+      state.user = user,
+      state.records = records,
+      state.isAuth = isAuth
     },
     setSnack(state, bool) {
       state.isSnack = bool
@@ -42,13 +32,14 @@ const store = createStore({
     async getRecordsToSet({ commit }){
       try {
         const response = await api.get('/mypage')
-        if (response.data.success) {
+        const {success, message, user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(`[getRecordsToSet]:${response.data.message}`)
+            console.log(`[getRecordsToSet]:${message}`)
           }
-          commit('setRecords', response.data.records)
         } else {
-          console.error(`[getRecordsToSet]:${response.data.message}`)
+          console.error(`[getRecordsToSet]:${message}`)
         }
       } catch(error) {
         console.error(`[getRecordsToSet]:${error}`)
@@ -58,13 +49,14 @@ const store = createStore({
     async createRecords({ commit }, inputs){
       try {
         const response = await api.post('/mypage', inputs)
-        if (response.data.success) {
+        const {success, message, user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(`[createRecords]:${response.data.message}`)
+            console.log(`[createRecords]:${message}`)
           }
-          commit('setRecords', response.data.records)
         } else {
-          console.error(`[createRecords]:${response.data.message}`)
+          console.error(`[createRecords]:${message}`)
         }
       } catch(error) {
         console.error(`[createRecords]:${error}`)
@@ -79,13 +71,14 @@ const store = createStore({
       }
       try {
         const response = await api.put(`/mypage/${id}`, inputs)
-        if (response.data.success) {
+        const {success, message,  user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(`[editRecords]:${response.data.message}`)
+            console.log(`[editRecords]:${message}`)
           }
-          commit('setRecords', response.data.records)
         } else {
-          console.error(`[editRecords]:${response.data.message}`)
+          console.error(`[editRecords]:${message}`)
         }
       } catch(error) {
         console.error(`[editRecords]:${error}`)
@@ -96,13 +89,14 @@ const store = createStore({
       const id = record.id
       try {
         const response = await api.delete(`/mypage/${id}`)
-        if (response.data.success) {
+        const {success, message, user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(`[deleteRecords]:${response.data.message}`)
+            console.log(`[deleteRecords]:${message}`)
           }
-          commit('setRecords', response.data.records)
         } else {
-          console.error(`[deleteRecords]:${response.data.message}`)
+          console.error(`[deleteRecords]:${message}`)
         }
       } catch(error) {
         console.error(`[deleteRecords]:${error}`)
@@ -112,14 +106,14 @@ const store = createStore({
     async login({ commit }, inputs){
       try {
         const response = await api.post('auth/signin', inputs)
-        if (response.data.success) {
+        const {success, message, user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(response.data.message)
+            console.log(message)
           }
-          commit('setUser', response.data.user)
-          commit('setAuth')
         } else {
-          console.error(response.data.message)
+          console.error(message)
         }
       } catch(error) {
         console.error(error)
@@ -129,13 +123,14 @@ const store = createStore({
     async logout({ commit }){
       try {
         const response = await api.post('auth/signout')
-        if (response.data.success) {
+        const {success, message, user, records, isAuth} = response.data
+        commit('setResponses', user, records, isAuth)
+        if (success) {
           if (import.meta.env.VITE_ENV === 'development') {
-            console.log(response.data.message)
+            console.log(message)
           }
-          commit('resetAuth')
         } else {
-          console.error(response.data.message)
+          console.error(message)
         }
       } catch(error) {
         console.error(error)
