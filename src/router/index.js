@@ -23,7 +23,12 @@ const routes = [
     path: '/signup',
     name: 'SignUp',
     component: () => import('../views/SignUp.vue')
-  }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: "NotFound",
+    component: () => import('../views/NotFound.vue')
+}
 ]
 
 const router = createRouter({
