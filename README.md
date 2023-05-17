@@ -1,16 +1,16 @@
 # MY BENCH APP
  
-ベンチプレスの記録ができる自己満アプリです。
+ベンチプレスの記録ができる自己満アプリ(SPA)です。
  
-# Features
+## Features
  
 Vue.js
  
-# Requirement
+## Requirement
  
 * node v18.15.0
  
-# Installation
+## Installation
  
 ```bash
 git clone https://github.com/yu03-dev/my-bench-app.git
@@ -19,14 +19,24 @@ npm install
 echo VITE_ENV=development >> .env
 ```
  
-# Usage
+## Usage
  
-Comming Soon...
+```bash
+npm run build
+npm run preview
+```
+
+http://localhost:4173にアクセス
  
-# Note
+## Note
  
-Comming Soon...
+このアプリでできることは以下の通りです。
+
+* '/': ホームページ
+* '/signin': サインイン画面
+* '/signup': サインアップ画面
+* '/mypage': マイページ画面(ベンチプレスの記録の一覧、作成、編集、削除)
  
-# Author
+## Author
  
 * yu03-dev
