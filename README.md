@@ -1,23 +1,23 @@
-MY BENCH APP
+# MY BENCH APP
  
-ベンチプレスの記録ができる自分だけのアプリです
- 
-# DEMO
- 
-Comming Soon...
+ベンチプレスの記録ができる自己満アプリです。
  
 # Features
  
-Comming Soon...
+Vue.js
  
 # Requirement
  
-Comming Soon...
- 
+* node v18.15.0
  
 # Installation
  
-Comming Soon...
+```bash
+git clone https://github.com/yu03-dev/my-bench-app.git
+cd {my-bench-app}
+npm install
+echo VITE_ENV=development >> .env
+```
  
 # Usage
  
@@ -30,5 +30,3 @@ Comming Soon...
 # Author
  
 * yu03-dev
-* 大学院では機械学習の研究をしています
-* もちろん筋トレもしています
