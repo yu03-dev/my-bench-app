@@ -39,4 +39,5 @@ npm run preview
  
 ## Author
  
-* yu03-dev
+yu03-dev  
+大学院で機械学習の研究をしています
