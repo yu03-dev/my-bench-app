@@ -26,7 +26,7 @@ npm run build
 npm run preview
 ```
 
-http://localhost:4173にアクセス
+"http://localhost:4173"にアクセス
  
 ## Note
  
